@@ -1,5 +1,6 @@
 import pygame
 import walls
+from player import Player
 
 width = 606
 height = 606
@@ -10,28 +11,33 @@ screen.fill(violet)
 pygame.display.set_caption('Pacman')
 
 # початкові координати
-x = 300
-y = 400
-pacman = pygame.image.load("Pacman.png")
-pacman = pygame.transform.scale(pacman, (50, 50))
-screen.blit(pacman, (x, y))
+x = 303 - 16
+y = (7 * 60) + 19
+# pacman = pygame.image.load("Pacman.png")
+# pacman = pygame.transform.scale(pacman, (50, 50))
+# screen.blit(pacman, (x, y))
 
+pacman = Player(x, y, 32, 32, "Pacman.png")
 
+clock = pygame.time.Clock()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
     keys = pygame.key.get_pressed()
+    wall_list = walls.get()
     if keys[pygame.K_RIGHT]:
-        x = x + 0.1
+        pacman.update(30, 0, wall_list)
     if keys[pygame.K_LEFT]:
-        x = x - 0.1
+        pacman.update(-30, 0, wall_list)
     if keys[pygame.K_UP]:
-        y = y - 0.1
+        pacman.update(0, -30, wall_list)
     if keys[pygame.K_DOWN]:
-        y = y + 0.1
+        pacman.update(0, 30, wall_list)
 
     screen.fill(violet)
-    walls.get().draw(screen)
-    screen.blit(pacman, (x, y))
+
+    wall_list.draw(screen)
+    pacman.draw(screen)
     pygame.display.update()
+    clock.tick(10)
