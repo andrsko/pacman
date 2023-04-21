@@ -37,6 +37,7 @@ while True:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_RIGHT]:
         x = x + 0.1
+        # TODO x*VELOCITY in update()
     if keys[pygame.K_LEFT]:
         pacman.update(-30, 0, wall_list)
     if keys[pygame.K_UP]:
