@@ -1,7 +1,7 @@
 import pygame
 import walls
 from player import Player, Ghost
-walls.color = (0, 0, 0)
+
 width = 606
 height = 606
 
@@ -17,7 +17,9 @@ y = (7 * 60) + 19
 # pacman = pygame.transform.scale(pacman, (50, 50))
 # screen.blit(pacman, (x, y))
 
+# TODO pass walls in init
 pacman = Player(x, y, "Pacman.png")
+
 ghost1 = Ghost(255, 200, "Blinky.png")
 ghost2 = Ghost(275, 200, "Clyde.png")
 # ghost3 = Ghost(295, 200, "Inky.png")
@@ -33,25 +35,30 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
     keys = pygame.key.get_pressed()
-
     if keys[pygame.K_RIGHT]:
-        pacman.update(30, 0, wall_list)
+        x = x + 0.1
     if keys[pygame.K_LEFT]:
         pacman.update(-30, 0, wall_list)
     if keys[pygame.K_UP]:
         pacman.update(0, -30, wall_list)
     if keys[pygame.K_DOWN]:
         pacman.update(0, 30, wall_list)
-
+    # BOUNCE FROM WALLS
+    if x > 603 - 50:
+        x = 603 - 50
+    if x < 0:
+        x = 0
+    # same for y
+    x, y = pacman.update(x, y, wall_list)
     screen.fill(violet)
     ghost1.update_random(wall_list)
-    ghost2.update_random(wall_list)
+    # ghost2.update_random(wall_list)
     # ghost3.update_random(wall_list)
     # ghost4.update_random(wall_list)
     wall_list.draw(screen)
     pacman.draw(screen)
     ghost1.draw(screen)
-    ghost2.draw(screen)
+    #ghost2.draw(screen)
     # ghost3.draw(screen)
     # ghost4.draw(screen)
     ghost_collision = pygame.sprite.spritecollide(pacman, ghosts, False)
