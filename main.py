@@ -23,7 +23,7 @@ ghost2 = Ghost(475, 200, "Clyde.png")
 ghost3 = Ghost(295, 200, "Inky.png")
 ghost4 = Ghost(415, 200, "Pinky.png")
 ghosts = pygame.sprite.Group()
-ghosts.add(ghost1, ghost2)#, ghost3, ghost4)
+ghosts.add(ghost1, ghost2, ghost3, ghost4)
 game_over = False
 clock = pygame.time.Clock()
 wall_list = walls.get()
