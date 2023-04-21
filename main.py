@@ -18,10 +18,10 @@ y = (7 * 60) + 19
 # screen.blit(pacman, (x, y))
 
 pacman = Player(x, y, "Pacman.png")
-ghost1 = Ghost(255, 200, "Blinky.png")
-ghost2 = Ghost(275, 200, "Clyde.png")
-# ghost3 = Ghost(295, 200, "Inky.png")
-# ghost4 = Ghost(315, 200, "Pinky.png")
+ghost1 = Ghost(55, 200, "Blinky.png")
+ghost2 = Ghost(475, 200, "Clyde.png")
+ghost3 = Ghost(295, 200, "Inky.png")
+ghost4 = Ghost(415, 200, "Pinky.png")
 ghosts = pygame.sprite.Group()
 ghosts.add(ghost1, ghost2)#, ghost3, ghost4)
 game_over = False
@@ -46,14 +46,14 @@ while True:
     screen.fill(violet)
     ghost1.update_random(wall_list)
     ghost2.update_random(wall_list)
-    # ghost3.update_random(wall_list)
-    # ghost4.update_random(wall_list)
+    ghost3.update_random(wall_list)
+    ghost4.update_random(wall_list)
     wall_list.draw(screen)
     pacman.draw(screen)
     ghost1.draw(screen)
     ghost2.draw(screen)
-    # ghost3.draw(screen)
-    # ghost4.draw(screen)
+    ghost3.draw(screen)
+    ghost4.draw(screen)
     ghost_collision = pygame.sprite.spritecollide(pacman, ghosts, False)
     if ghost_collision:
         game_over = True
