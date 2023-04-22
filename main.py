@@ -15,7 +15,6 @@ x = 287
 y = 439
 pacman = pygame.image.load("Pacman.png")
 pacman = pygame.transform.scale(pacman, (32, 32))
-screen.blit(pacman, (x, y))
 
 player = Character(x, y, pacman)
 player.set_walls(walls.get())
@@ -36,14 +35,14 @@ while True:
     if keys[pygame.K_DOWN]:
         y = y + 0.1
 
-    if x > 603 - 32:
-        x = 603 - 32
     if x < 0:
         x = 0
-    if y > 603 - 32:
-        y = 603 - 32
     if y < 0:
         y = 0
+    if x > 603 - 32:
+        x = 603 - 32
+    if y > 603 - 32:
+        y = 603 - 32
 
     player.update(x, y)
     x = player.get_x()
