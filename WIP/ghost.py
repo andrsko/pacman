@@ -17,7 +17,7 @@ class Ghost(Character):
         self.rect.top = old_y
         return collide
 
-    def update_random(self, walls):
+    def move(self, walls):
         moves = [(30, 0), (-30, 0), (0, -30), (0, 30)]
 
         random_move = random.choice(moves)

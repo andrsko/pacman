@@ -1,6 +1,6 @@
 import pygame
-# TODO make configurable
-color = (0, 0, 255)
+
+blue = (0, 0, 255)
 
 
 class Wall(pygame.sprite.Sprite):
@@ -65,7 +65,7 @@ def get():
 
     # Loop through the list. Create the wall, add it to the list
     for coordinates in coordinates_list:
-        wall = Wall(coordinates[0], coordinates[1], coordinates[2], coordinates[3], color)
+        wall = Wall(coordinates[0], coordinates[1], coordinates[2], coordinates[3], blue)
         sprites.add(wall)
 
     # return our new list
