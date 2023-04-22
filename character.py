@@ -11,9 +11,9 @@ class Character(pygame.sprite.Sprite):
         self.rect.top = y
         self.walls = []
 
-
     def set_walls(self, walls):
         self.walls = walls
+
     def update(self, new_x, new_y):
         old_x = self.rect.left
         old_y = self.rect.top
@@ -31,5 +31,6 @@ class Character(pygame.sprite.Sprite):
 
     def get_y(self):
         return self.rect.top
+
     def draw(self, screen):
         screen.blit(self.image, self.rect)
