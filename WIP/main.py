@@ -1,7 +1,7 @@
 import pygame
 import walls
 from character import Character
-from ghost import Ghost
+from mobs import Mobs
 walls.color = (0, 0, 0)
 width = 606
 height = 606
@@ -14,20 +14,24 @@ pygame.display.set_caption('Pacman')
 # початкові координати
 x = 287
 y = 439
-# pacman = pygame.image.load("Pacman.png")
-# pacman = pygame.transform.scale(pacman, (50, 50))
-# screen.blit(pacman, (x, y))
+pacman = pygame.image.load("Pacman.png")
+pacman = pygame.transform.scale(pacman, (32, 32))
 
-pacman = Character(x, y, "../Pacman.png")
-ghost1 = Ghost(55, 200, "Blinky.png")
-ghost2 = Ghost(475, 200, "Clyde.png")
-ghost3 = Ghost(295, 200, "Inky.png")
-ghost4 = Ghost(415, 200, "Pinky.png")
-ghosts = pygame.sprite.Group()
-ghosts.add(ghost1, ghost2, ghost3, ghost4)
+player = Character(x, y, pacman)
+player.set_walls(walls.get())
+
+
 game_over = False
 clock = pygame.time.Clock()
 wall_sprites = walls.get()
+
+ghosts = Mobs()
+ghosts.set_walls(wall_sprites)
+ghosts.add(55, 200, "Blinky.png")
+ghosts.add(475, 200, "Clyde.png")
+ghosts.add(295, 200, "Inky.png")
+ghosts.add(415, 200, "Pinky.png")
+
 while True:
 
     for event in pygame.event.get():
@@ -36,26 +40,34 @@ while True:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_RIGHT]:
-        pacman.update(30, 0, wall_sprites)
+        x = x + 0.1
     if keys[pygame.K_LEFT]:
-        pacman.update(-30, 0, wall_sprites)
+        x = x - 0.1
     if keys[pygame.K_UP]:
-        pacman.update(0, -30, wall_sprites)
+        y = y - 0.1
     if keys[pygame.K_DOWN]:
-        pacman.update(0, 30, wall_sprites)
+        y = y + 0.1
+
+    if x < 0:
+        x = 0
+    if y < 0:
+        y = 0
+    if x > 603 - 32:
+        x = 603 - 32
+    if y > 603 - 32:
+        y = 603 - 32
+
+    player.update(x, y)
+    x = player.get_x()
+    y = player.get_y()
 
     screen.fill(violet)
-    ghost1.move(wall_sprites)
-    ghost2.move(wall_sprites)
-    ghost3.move(wall_sprites)
-    ghost4.move(wall_sprites)
+
+    ghosts.move()
     wall_sprites.draw(screen)
-    pacman.draw(screen)
-    ghost1.draw(screen)
-    ghost2.draw(screen)
-    ghost3.draw(screen)
-    ghost4.draw(screen)
-    ghost_collision = pygame.sprite.spritecollide(pacman, ghosts, False)
+    player.draw(screen)
+    ghosts.draw(screen)
+    ghost_collision = ghosts.check_collision(player)
     if ghost_collision:
         game_over = True
     if game_over:
