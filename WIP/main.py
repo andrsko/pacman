@@ -16,8 +16,11 @@ pygame.display.set_caption('Pacman')
 # початкові координати
 x = 287
 y = 439
-pacman = pygame.image.load("Pacman.png")
+pacman = pygame.image.load("Pacman-background.png")
 pacman = pygame.transform.scale(pacman, (32, 32))
+white = (255, 255, 255)
+pacman.set_colorkey(white)
+pacman = pacman.convert_alpha()
 
 player = Character(x, y, pacman)
 player.set_walls(walls.get())

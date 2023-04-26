@@ -42,6 +42,9 @@ class Mob(Character):
     def __init__(self, x, y, filename):
         image = pygame.image.load(filename)
         image = pygame.transform.scale(image, (32, 32))
+        white = (255, 255, 255)
+        image.set_colorkey(white)
+        image = image.convert_alpha()
         Character.__init__(self, x, y, image)
         self.previous_position = [0, 0]
 
