@@ -67,7 +67,7 @@ while True:
     wall_sprites.draw(screen)
     player.draw(screen)
     ghosts.draw(screen)
-    ghost_collision = ghosts.check_collision(player)
+    ghost_collision = ghosts.collide(player)
     if ghost_collision:
         game_over = True
     if game_over:

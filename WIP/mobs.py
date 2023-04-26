@@ -22,8 +22,6 @@ class Mobs:
 
     def add(self, x, y, filename):
         sprite = Mob(x, y, filename)
-        from pprint import pprint
-        pprint(getmembers(sprite))
         sprite.set_walls(self.walls)
         self.sprite_list.append(sprite)
         self.sprite_group.add(sprite)
@@ -36,7 +34,7 @@ class Mobs:
         for sprite in self.sprite_list:
             sprite.draw(screen)
 
-    def check_collision(self, player):
+    def collide(self, player):
         return pygame.sprite.spritecollide(player, self.sprite_group, False)
 
 
@@ -45,13 +43,19 @@ class Mob(Character):
         image = pygame.image.load(filename)
         image = pygame.transform.scale(image, (32, 32))
         Character.__init__(self, x, y, image)
-        self.previous_positions = [[0, 0], [0, 0], [0, 0]]
+        self.previous_position = [0, 0]
 
     def update(self, new_x, new_y):
         self.rect.left += new_x
         self.rect.top += new_y
 
     def collides_with_walls(self, new_x, new_y):
+        """
+        Тільки перевірити - не переміщаючи в результаті.
+        Для цього потрібно: запам'ятати поточні координати, далі
+        перемістити тимчасово щоб використати вбудовану функцію
+        перевірки зіткнення і далі повернути початкові координати.
+        """
         old_x = self.rect.left
         old_y = self.rect.top
 
@@ -59,29 +63,35 @@ class Mob(Character):
         self.rect.top = new_y
 
         collide = pygame.sprite.spritecollide(self, self.walls, False)
+
         self.rect.left = old_x
         self.rect.top = old_y
+
         return collide
 
     def move(self):
+        """
+        Здійснити рух персонажа у випадковому напрямку.
+        Щоб рух був плавний і направлений - перевіряти
+        на зіткнення зі стінами і направленість в одну сторону
+        за допомогою порівняння з попередніми координатами.
+        """
         moves = [(30, 0), (-30, 0), (0, -30), (0, 30)]
 
         random_move = random.choice(moves)
         new_x = self.rect.left + random_move[0]
         new_y = self.rect.top + random_move[1]
-        while (new_x == self.previous_positions[0][0] and new_y == self.previous_positions[0][1]
-                or new_x == self.previous_positions[1][0] and new_y == self.previous_positions[1][1]
-                or new_x == self.previous_positions[2][0] and new_y == self.previous_positions[2][1]
+
+        # Вибирати нову позицію поки вона не буде співпадати з
+        # попередніми координатами і не впиратися в стіну,
+        # що змусило б персонажа лишатися на місці протягом
+        # поточного кадру
+        while ([new_x, new_y] == self.previous_position
                 or self.collides_with_walls(new_x, new_y)):
             random_move = random.choice(moves)
             new_x = self.rect.left + random_move[0]
             new_y = self.rect.top + random_move[1]
+
+        self.previous_position = [self.rect.left, self.rect.top]
+
         self.update(random_move[0], random_move[1])
-        # self.previous_positions[0] = self.previous_positions[1].copy()
-        # self.previous_positions[1] = self.previous_positions[2].copy()
-        self.previous_positions[0][0] = self.previous_positions[1][0]
-        self.previous_positions[0][1] = self.previous_positions[1][1]
-        self.previous_positions[1][0] = self.previous_positions[2][0]
-        self.previous_positions[1][1] = self.previous_positions[2][1]
-        self.previous_positions[2][0] = self.rect.left
-        self.previous_positions[2][1] = self.rect.top
