@@ -20,17 +20,16 @@ pacman = pygame.transform.scale(pacman, (32, 32))
 player = Character(x, y, pacman)
 player.set_walls(walls.get())
 
-
-game_over = False
-clock = pygame.time.Clock()
-wall_sprites = walls.get()
-
 ghosts = Mobs()
-ghosts.set_walls(wall_sprites)
+ghosts.set_walls(walls.get())
 ghosts.add(55, 200, "Blinky.png")
 ghosts.add(475, 200, "Clyde.png")
 ghosts.add(295, 200, "Inky.png")
 ghosts.add(415, 200, "Pinky.png")
+
+game_over = False
+
+clock = pygame.time.Clock()
 
 while True:
 
@@ -65,7 +64,7 @@ while True:
 
     screen.fill(violet)
 
-    wall_sprites.draw(screen)
+    walls.get().draw(screen)
     player.draw(screen)
     ghosts.draw(screen)
 
