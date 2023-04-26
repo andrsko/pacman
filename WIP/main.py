@@ -67,15 +67,19 @@ while True:
     wall_sprites.draw(screen)
     player.draw(screen)
     ghosts.draw(screen)
+
     ghost_collision = ghosts.collide(player)
+
     if ghost_collision:
         game_over = True
+
     if game_over:
         white = (255, 255, 255)
         pygame.font.init()
         font = pygame.font.Font("freesansbold.ttf", 32)
         text2 = font.render("Game Over", True, white)
         screen.blit(text2, [210, 250])
+
     pygame.display.update()
 
     clock.tick(10)
