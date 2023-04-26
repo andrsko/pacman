@@ -61,9 +61,10 @@ while True:
     x = player.get_x()
     y = player.get_y()
 
+    ghosts.move()
+
     screen.fill(violet)
 
-    ghosts.move()
     wall_sprites.draw(screen)
     player.draw(screen)
     ghosts.draw(screen)
