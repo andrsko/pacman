@@ -2,7 +2,9 @@ import pygame
 import walls
 from character import Character
 from mobs import Mobs
+
 walls.color = (0, 0, 0)
+
 width = 606
 height = 606
 
