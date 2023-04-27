@@ -16,6 +16,7 @@ class Mobs:
         self.sprite_group = pygame.sprite.Group()
 
         self.walls = []
+        self.game_over = False
 
     def set_walls(self, walls):
         self.walls = walls
@@ -36,6 +37,19 @@ class Mobs:
 
     def collide(self, player):
         return pygame.sprite.spritecollide(player, self.sprite_group, False)
+
+    def check_game_over(self, player, screen):
+        ghost_collision = self.collide(player)
+
+        if ghost_collision:
+            self.game_over = True
+
+        if self.game_over:
+            font_color = (255, 255, 255)  # White
+            pygame.font.init()
+            font = pygame.font.Font("freesansbold.ttf", 32)
+            text2 = font.render("Game Over", True, font_color)
+            screen.blit(text2, [210, 250])
 
 
 class Mob(Character):
