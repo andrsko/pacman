@@ -16,12 +16,13 @@ class Mobs:
         self.sprite_group = pygame.sprite.Group()
 
         self.walls = []
+        self.game_over = False
 
     def set_walls(self, walls):
         self.walls = walls
 
-    def add(self, x, y, filename):
-        sprite = Mob(x, y, filename)
+    def add(self, x, y, filename, remove_background=True, background_color=(255, 255, 255)):
+        sprite = Mob(x, y, filename, remove_background, background_color)
         sprite.set_walls(self.walls)
         self.sprite_list.append(sprite)
         self.sprite_group.add(sprite)
@@ -37,11 +38,27 @@ class Mobs:
     def collide(self, player):
         return pygame.sprite.spritecollide(player, self.sprite_group, False)
 
+    def check_game_over(self, player, screen):
+        ghost_collision = self.collide(player)
+
+        if ghost_collision:
+            self.game_over = True
+
+        if self.game_over:
+            font_color = (255, 255, 255)  # Білий
+            pygame.font.init()
+            font = pygame.font.Font("freesansbold.ttf", 32)
+            text2 = font.render("Game Over", True, font_color)
+            screen.blit(text2, [210, 250])
+
 
 class Mob(Character):
-    def __init__(self, x, y, filename):
+    def __init__(self, x, y, filename, remove_background, background_color):
         image = pygame.image.load(filename)
         image = pygame.transform.scale(image, (32, 32))
+        if remove_background:
+            image.set_colorkey(background_color)
+            image = image.convert_alpha()
         Character.__init__(self, x, y, image)
         self.previous_position = [0, 0]
 
