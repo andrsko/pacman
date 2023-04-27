@@ -45,7 +45,7 @@ class Mobs:
             self.game_over = True
 
         if self.game_over:
-            font_color = (255, 255, 255)  # White
+            font_color = (255, 255, 255)  # Білий
             pygame.font.init()
             font = pygame.font.Font("freesansbold.ttf", 32)
             text2 = font.render("Game Over", True, font_color)
