@@ -21,8 +21,8 @@ class Mobs:
     def set_walls(self, walls):
         self.walls = walls
 
-    def add(self, x, y, filename):
-        sprite = Mob(x, y, filename)
+    def add(self, x, y, filename, remove_background=True, background_color=(255, 255, 255)):
+        sprite = Mob(x, y, filename, remove_background, background_color)
         sprite.set_walls(self.walls)
         self.sprite_list.append(sprite)
         self.sprite_group.add(sprite)
@@ -53,12 +53,12 @@ class Mobs:
 
 
 class Mob(Character):
-    def __init__(self, x, y, filename):
+    def __init__(self, x, y, filename, remove_background, background_color):
         image = pygame.image.load(filename)
         image = pygame.transform.scale(image, (32, 32))
-        white = (255, 255, 255)
-        image.set_colorkey(white)
-        image = image.convert_alpha()
+        if remove_background:
+            image.set_colorkey(background_color)
+            image = image.convert_alpha()
         Character.__init__(self, x, y, image)
         self.previous_position = [0, 0]
 
