@@ -1,6 +1,7 @@
 import pygame
 import walls
 from character import Character
+from mobs import Mobs
 
 width = 606
 height = 606
@@ -16,8 +17,20 @@ y = 439
 pacman = pygame.image.load("Pacman.png")
 pacman = pygame.transform.scale(pacman, (32, 32))
 
+# Видалити фон пакмана
+white = (255, 255, 255)
+pacman.set_colorkey(white)
+pacman = pacman.convert_alpha()
+
 player = Character(x, y, pacman)
 player.set_walls(walls.get())
+
+ghosts = Mobs()
+ghosts.set_walls(walls.get())
+ghosts.add(55, 200, "Blinky.png")
+ghosts.add(475, 200, "Clyde.png")
+ghosts.add(295, 200, "Inky.png")
+ghosts.add(415, 200, "Pinky.png")
 
 clock = pygame.time.Clock()
 
@@ -25,6 +38,11 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
+
+    # Зупинити гру
+    if ghosts.game_over:
+        continue
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_RIGHT]:
         x = x + 0.1
@@ -48,9 +66,14 @@ while True:
     x = player.get_x()
     y = player.get_y()
 
+    ghosts.move()
+
     screen.fill(violet)
     walls.get().draw(screen)
     player.draw(screen)
+    ghosts.draw(screen)
+    ghosts.check_game_over(player, screen)
     pygame.display.update()
 
-    clock.tick(20)
+    # Швидкість гри
+    clock.tick(15)
