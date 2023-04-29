@@ -27,15 +27,16 @@ player.set_walls(walls.get())
 
 ghosts = Mobs()
 ghosts.set_walls(walls.get())
-ghosts.add(55, 200, "Blinky.png", False)
-ghosts.add(475, 200, "Clyde.png", False)
-ghosts.add(295, 200, "Inky.png", False)
-ghosts.add(415, 200, "Pinky.png", False)
+ghosts.add(55, 200, "Blinky.png")
+ghosts.add(475, 200, "Clyde.png")
+ghosts.add(295, 200, "Inky.png")
+ghosts.add(415, 200, "Pinky.png")
 
 clock = pygame.time.Clock()
 
 while True:
-
+    if ghosts.game_over:
+        continue
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
