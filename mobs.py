@@ -21,7 +21,7 @@ class Mobs:
     def set_walls(self, walls):
         self.walls = walls
 
-    def add(self, x, y, filename, remove_background=True, background_color=(255, 255, 255)):
+    def add(self, x, y, filename, remove_background=False, background_color=(255, 255, 255)):
         sprite = Mob(x, y, filename, remove_background, background_color)
         sprite.set_walls(self.walls)
         self.sprite_list.append(sprite)
