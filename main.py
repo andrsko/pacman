@@ -35,6 +35,7 @@ ghosts.add(415, 200, "Pinky.png")
 clock = pygame.time.Clock()
 
 while True:
+    # Перевірити на подію закриття програми
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -76,4 +77,4 @@ while True:
     pygame.display.update()
 
     # Швидкість гри
-    clock.tick(15)
+    clock.tick(10)
